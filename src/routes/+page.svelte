@@ -31,7 +31,7 @@
     }
 </script>
 
-<div class="px-4 pt-12 space-y-4 mx-auto max-w-md h-screen">
+<div class="px-4 py-12 space-y-4 mx-auto max-w-md h-screen">
     <header>
         <hgroup>
             <h2 class="h2 font-bold text-surface-500">Backronyms by Bear</h2>
