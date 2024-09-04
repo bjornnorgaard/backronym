@@ -1,11 +1,67 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+    import { derived, writable } from "svelte/store";
+    import CandidatePicker from "./CandidatePicker.svelte";
+    import Backronym from "./Backronym.svelte";
+    import Acronym from "./Acronym.svelte";
+    import { words } from "./words";
 
+    const key: string = "backronym";
+    const input = writable<string>("FFS");
+    const letters = derived(input, () => $input.toLowerCase().split(""));
+    const selection = writable<string[]>([]);
+    const result = derived(selection, () => $selection.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" "));
+    let data = words;
 
+    letters.subscribe(value => $selection = $selection.slice(0, value.length));
 
-<button type="button" class="btn-icon variant-filled">(icon)</button>
-<button type="button" class="btn variant-filled">Button</button>
-<button type="button" class="btn variant-filled">
-    <span>(icon)</span>
-    <span>Button</span>
-</button>
+    function updateSelection(i: number, word: string) {
+        if (!word) {
+            return;
+        }
+        return $selection[i] = word;
+    }
+
+    export function shuffleArray() {
+        let array = data;
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [ array[i], array[j] ] = [ array[j], array[i] ];
+        }
+        data = array;
+    }
+</script>
+
+<div class="p-4 space-y-8 mx-auto max-w-md">
+    <header>
+        <hgroup>
+            <h2 class="h2 font-bold text-surface-500">Backronyms by Bear</h2>
+            <p>The
+                <Backronym/>
+               Generator is a simple tool that takes a word or phrase and generates a backronym from it.
+            </p>
+        </hgroup>
+    </header>
+
+    <main class="space-y-8">
+        {#if $result}
+            <div class="space-y-4 text-center">
+                <h1 class="h1 text-3xl bg-gradient-to-br font-bold from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone">{$result}</h1>
+            </div>
+        {/if}
+        
+        <label class="label text-center">
+            <p>👇
+                <Backronym/>
+               to make <Acronym/> from 👇
+            </p>
+            <input type="text" class="input text-surface-500 font-bold text-4xl text-center" bind:value={$input}>
+            <p>☝️ Click me to change desired <Acronym/> ☝️</p>
+        </label>
+
+        <div class="space-y-4">
+            {#each $letters as letter, i}
+                <CandidatePicker letter={letter} words={data} on:pick={w => updateSelection(i,w.detail)}/>
+            {/each}
+        </div>
+    </main>
+</div>
