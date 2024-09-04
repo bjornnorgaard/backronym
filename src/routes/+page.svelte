@@ -31,7 +31,7 @@
     }
 </script>
 
-<div class="p-4 space-y-8 mx-auto max-w-md">
+<div class="p-4 space-y-8 mx-auto max-w-md mt-8">
     <header>
         <hgroup>
             <h2 class="h2 font-bold text-surface-500">Backronyms by Bear</h2>
@@ -48,7 +48,7 @@
                 <h1 class="h1 text-3xl bg-gradient-to-br font-bold from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone">{$result}</h1>
             </div>
         {/if}
-        
+
         <label class="label text-center">
             <p>👇
                 <Backronym/>
