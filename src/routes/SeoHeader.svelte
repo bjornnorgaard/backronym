@@ -3,7 +3,7 @@
     const rootUrl = "https://backronym.bybear.dk"
     const author = "Bjørn Nørgaard";
 
-    let title = `${name} - Bedre opskriter, mindre pis og ingen reklamer`;
+    let title = `${name}`;
 
     let description = "Welcome to Backronym by Bear! Got an acronym but no idea " +
         "what it means? No worries! Enter any set of letters, and we’ll toss " +
