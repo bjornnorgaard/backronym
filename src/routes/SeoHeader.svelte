@@ -5,7 +5,7 @@
 
     let title = `${name}`;
 
-    let description = "Welcome to Backronym by Bear! Got an acronym but no idea " +
+    let description = "Got an acronym but no idea " +
         "what it means? No worries! Enter any set of letters, and we’ll toss " +
         "out a hilariously random stream of technical jargon that’s guaranteed " +
         "to sound smarter than it actually is. Perfect for impressing your " +
