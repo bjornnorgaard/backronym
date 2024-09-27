@@ -1,12 +1,11 @@
 <script lang="ts">
     import { createEventDispatcher, onMount } from "svelte";
+    import { words } from "./wordsStore";
+    import { derived } from "svelte/store";
 
     export let letter: string;
-    export let words: string[];
-
     const dispatch = createEventDispatcher();
-    const filtered = words.filter(word => word.toLowerCase().startsWith(letter.toLowerCase()));
-
+    const filtered = derived(words, (list) => list.filter(word => word.toLowerCase().startsWith(letter.toLowerCase())));
     let pick = "";
 
     function onSelect(word: string) {
@@ -15,25 +14,26 @@
     }
 
     onMount(() => {
-        pick = filtered[Math.floor(Math.random() * filtered.length)];
-        onSelect(pick);
+        return filtered.subscribe(list => {
+            onSelect(list[Math.floor(Math.random() * list.length)]);
+        })
     });
 </script>
 
-<div class="space-y-2">
-    <div class="border-b-2 border-primary-500 ">
+<div class="space-y-4">
+    <div class="border-b-2 text-left border-primary-500">
         <span class="text-6xl font-bold text-primary-500">{letter.toUpperCase()}</span>
         <span>is for</span>
         {#if pick}
-            <span class="text-primary-500 font-bold">{pick}</span>
+            <span class="font-bold text-primary-500">{pick}</span>
         {:else}
-            <span class="text-secondary-500 font-bold">Fools</span>
+            <span class="font-bold text-secondary-500">Fools</span>
             <span>using dumb symbols</span>
         {/if}
     </div>
 
-    <p class="flex gap-2 flex-wrap ">
-        {#each filtered as word}
+    <p class="flex flex-wrap gap-2">
+        {#each $filtered as word}
             <button type="button"
                     class="btn btn-sm"
                     class:variant-soft={pick !== word}

@@ -1,4 +1,4 @@
-export const words = [
+export const technical = [
     "Access", "Automation", "Analytics", "Agent", "Application", "Android", "Advanced", "Attribute",   // A
     "Backup", "Broker", "Balance", "Bridge", "Business", "Block", "Bandwidth", "Benchmark", // B
     "Control", "Cloud", "Compliance", "Connector", "Coordination", "Cache", "Cluster",   // C

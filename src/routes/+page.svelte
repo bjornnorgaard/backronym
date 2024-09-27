@@ -3,13 +3,13 @@
     import CandidatePicker from "./CandidatePicker.svelte";
     import Backronym from "./Backronym.svelte";
     import Acronym from "./Acronym.svelte";
-    import { words } from "./words";
+    import { words } from "./wordsStore";
+    import DomainPicker from "./DomainPicker.svelte";
 
     const input = writable<string>("FFS");
     const letters = derived(input, () => $input.toLowerCase().split(""));
     const selection = writable<string[]>([]);
     const result = derived(selection, () => $selection.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" "));
-    let data = words;
 
     letters.subscribe(value => $selection = $selection.slice(0, value.length));
 
@@ -21,19 +21,19 @@
     }
 
     export function shuffleArray() {
-        let array = data;
+        let array = $words;
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [ array[i], array[j] ] = [ array[j], array[i] ];
         }
-        data = array;
+        words.set(array);
     }
 </script>
 
-<div class="px-4 py-12 space-y-4 mx-auto max-w-screen-sm h-screen">
+<div class="mx-auto h-screen max-w-screen-sm px-4 py-12 space-y-4">
     <header>
         <hgroup>
-            <h2 class="h2 font-bold text-surface-500">Backronyms By Bear</h2>
+            <h2 class="font-bold h2 text-surface-500">Backronyms By Bear</h2>
             <p>The
                 <Backronym/>
                Generator is a simple tool that takes a word or phrase and generates a backronym from it.
@@ -42,25 +42,30 @@
     </header>
 
     <main class="space-y-4">
+        <label class="box">
+            <span>👇 <Backronym/> to make <Acronym/> from 👇</span>
+            <input type="text" class="text-center text-3xl font-bold variant-ghost input" bind:value={$input}>
+            <DomainPicker/>
+            <span>👆 Click me to change domain 👆</span>
+        </label>
+
         {#if $result}
-            <div class="space-y-4 text-center">
-                <h1 class="h1 text-3xl bg-gradient-to-br font-bold from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone">{$result}</h1>
+            <div class="box">
+                <span>🎉 Your generated <Backronym/> 🎉</span>
+                <h1 class="bg-gradient-to-br from-red-500 to-yellow-500 box-decoration-clone bg-clip-text text-3xl font-bold text-transparent h1">{$result}</h1>
             </div>
         {/if}
 
-        <label class="label text-center">
-            <span>👇
-                <Backronym/>
-               to make <Acronym/> from 👇
-            </span>
-            <input type="text" class="input text-surface-500 font-bold text-4xl text-center" bind:value={$input}>
-            <span>☝️ Click me to change desired <Acronym/> ☝️</span>
-        </label>
-
-        <div class="space-y-4">
+        <div class="box">
             {#each $letters as letter, i}
-                <CandidatePicker letter={letter} words={data} on:pick={w => updateSelection(i,w.detail)}/>
+                <CandidatePicker letter={letter} on:pick={w => updateSelection(i,w.detail)}/>
             {/each}
         </div>
     </main>
 </div>
+
+<style lang="postcss">
+    .box {
+        @apply p-4 text-center card;
+    }
+</style>
