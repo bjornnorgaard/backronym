@@ -33,7 +33,7 @@
 <div class="mx-auto h-screen max-w-screen-sm px-4 py-12 space-y-4">
     <header>
         <hgroup>
-            <h2 class="font-bold h2 text-surface-500">Backronyms By Bear</h2>
+            <h2 class="font-bold h2 text-surface-500">Backronym By Bear</h2>
             <p>The
                 <Backronym/>
                Generator is a simple tool that takes a word or phrase and generates a backronym from it.
