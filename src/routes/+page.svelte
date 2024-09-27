@@ -50,12 +50,12 @@
         {/if}
 
         <label class="label text-center">
-            <p>👇
+            <span>👇
                 <Backronym/>
                to make <Acronym/> from 👇
-            </p>
+            </span>
             <input type="text" class="input text-surface-500 font-bold text-4xl text-center" bind:value={$input}>
-            <p>☝️ Click me to change desired <Acronym/> ☝️</p>
+            <span>☝️ Click me to change desired <Acronym/> ☝️</span>
         </label>
 
         <div class="space-y-4">
