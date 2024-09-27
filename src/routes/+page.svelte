@@ -5,7 +5,6 @@
     import Acronym from "./Acronym.svelte";
     import { words } from "./words";
 
-    const key: string = "backronym";
     const input = writable<string>("FFS");
     const letters = derived(input, () => $input.toLowerCase().split(""));
     const selection = writable<string[]>([]);
